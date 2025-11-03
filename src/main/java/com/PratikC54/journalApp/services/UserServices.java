@@ -4,7 +4,6 @@ import com.PratikC54.journalApp.Entity.User;
 import com.PratikC54.journalApp.Repository.UserRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -28,7 +27,7 @@ public class UserServices {
     public void deleteById(ObjectId id) {
         userrepository.deleteById(id);
     }
-    public User findByUsername(String username) {
+    public User findByUserName(String username) {
         return userrepository.findByUsername(username);
     }
 
