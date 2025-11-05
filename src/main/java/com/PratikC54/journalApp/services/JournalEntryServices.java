@@ -6,6 +6,7 @@ import com.PratikC54.journalApp.Repository.JournalEntryRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,12 +20,16 @@ public class JournalEntryServices {
     @Autowired
     private UserServices userServices ;
 
+    @Transactional
     public void saveEntry(JournalEntry journalEntry, String username) {
         User user = userServices.findByUserName(username);
-        journalEntry.setDate(LocalDateTime.now());
-        JournalEntry saved = journalentryrepository.save(journalEntry);
-        user.getJournalEntries().add(saved);
-        userServices.saveEntry(user);
+        if(user!=null) {
+            journalEntry.setDate(LocalDateTime.now());
+            JournalEntry saved = journalentryrepository.save(journalEntry);
+            user.getJournalEntries().add(saved);
+            userServices.saveEntry(user);
+        }
+        else throw new RuntimeException("User not found : "+username);
     }
 
     public void saveEntry(JournalEntry journalEntry) {
@@ -36,14 +41,16 @@ public class JournalEntryServices {
         return journalentryrepository.findAll();
     }
 
-    public Optional<JournalEntry> findbyId(ObjectId id) {
+    public Optional<JournalEntry> findById(ObjectId id) {
         return journalentryrepository.findById(id);
     }
 
     public void deleteById(String username, ObjectId id) {
         User user = userServices.findByUserName(username);
-        user.getJournalEntries().removeIf(x -> x.getId().equals(id));
-        userServices.saveEntry(user);
-        journalentryrepository.deleteById(id);
+        if(user!=null) {
+            user.getJournalEntries().removeIf(x -> x.getId().equals(id));
+            userServices.saveEntry(user);
+            journalentryrepository.deleteById(id);
+        }
     }
 }

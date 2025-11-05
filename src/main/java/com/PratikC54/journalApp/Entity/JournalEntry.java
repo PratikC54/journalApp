@@ -9,8 +9,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 
-@Document(collection =  "journal_entries")
 @Data
+@Document(collection =  "journal_entries")
 @NoArgsConstructor
 public class JournalEntry {
     @Id
