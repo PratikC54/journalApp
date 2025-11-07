@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-public class JournalEntryServices {
+public class JournalEntryService {
     @Autowired
     private JournalEntryRepository journalentryrepository;
 
@@ -27,7 +27,7 @@ public class JournalEntryServices {
             journalEntry.setDate(LocalDateTime.now());
             JournalEntry saved = journalentryrepository.save(journalEntry);
             user.getJournalEntries().add(saved);
-            userServices.saveEntry(user);
+            userServices.saveNewUser(user);
         }
         else throw new RuntimeException("User not found : "+username);
     }
@@ -53,4 +53,6 @@ public class JournalEntryServices {
             journalentryrepository.deleteById(id);
         }
     }
+
+
 }
