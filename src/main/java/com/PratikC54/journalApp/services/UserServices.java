@@ -17,7 +17,6 @@ public class UserServices {
     @Autowired
     private UserRepository userrepository;
 
-  
 
     public List<User> getAll() {
         return userrepository.findAll();
@@ -33,7 +32,6 @@ public class UserServices {
     public User findByUserName(String username) {
         return userrepository.findByUsername(username);
     }
-
 
     private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     public void saveUser(User user) {
